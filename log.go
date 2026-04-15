@@ -29,7 +29,7 @@ func (log *Log) Write(ent *Entry) error {
 
 func (log *Log) Read(ent *Entry) (eof bool, err error) {
 	err = ent.Decode(log.fp)
-	if err == io.EOF {
+	if err == io.EOF || err == io.ErrUnexpectedEOF || err == ErrBadChecksum {
 		return true, nil
 	} else if err != nil {
 		return false, err
